@@ -1,0 +1,43 @@
+{% extends 'flatpages/default.html' %}
+{% load custom_filters %}
+
+{% block title %}
+News
+{% endblock title %}
+
+{% block content %}
+  <style>
+   a {color: black; text-decoration: none;}
+   a:visited {color: black /* Цвет посещенной ссылки */}
+   a:hover {color: blue; /* Цвет ссылки при наведении */}
+  </style>
+    <h1>ВСЕ НОВОСТИ:</h1>
+    <span style ="color: grey;">Всего: {{ news|length }} публикаций</span>
+    <hr>
+    {% if news %}
+        {% for itemnews in news %}
+
+            {% autoescape off %}
+            <a href="{{ itemnews.id }}" style="font-size: 20px;"><b>{{ itemnews.title|censor }}</b></a></br>
+            {% endautoescape %}
+            {% for key, value in itemnews.CATEGORY_CHOICES %}
+                {% if key == itemnews.categoryType %}
+                    <span><b>{{value}}</b>,</span>
+                {% endif %}
+            {% endfor %}
+            <span>дата публикации: {{ itemnews.dateCreation|date:'d.M.Y H:i' }}, рейтинг: {{ itemnews.rating }} ({{ itemnews.author }})</span></br>
+            <span>Категория: </span>
+            {% for category in itemnews.postCategory.all %}
+                <span>{{ category.name}} </span>
+            {% endfor %}
+            {% autoescape off %}
+            </br>{{ itemnews.text|truncatechars:50|censor }}</br></br>
+            <!--  </br>{{ itemnews.text|truncatewords:20 }}</br></br> -->
+            {% endautoescape %}
+        {% endfor %}
+            <span style ="color: grey;">
+            &emsp;</span>
+    {% else %}
+        <h2>Новостей нет!</h2>
+    {% endif %}
+{% endblock content %}
