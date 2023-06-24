@@ -6,14 +6,9 @@ News
 {% endblock title %}
 
 {% block content %}
-  <style>
-   a {color: black; text-decoration: none;}
-   a:visited {color: black /* Цвет посещенной ссылки */}
-   a:hover {color: blue; /* Цвет ссылки при наведении */}
-  </style>
     {% autoescape off %}
     <h2>{{ news_item.title|censor }}</h2>
-        <span>{{ news_item.text|censor }}</br></span>
+    <span>{{ news_item.text|censor }}</br></span>
     {% endautoescape %}
     <hr>
         {% for key, value in news_item.CATEGORY_CHOICES %}
@@ -26,12 +21,10 @@ News
         {% for category in news_item.postCategory.all %}
             <span>{{ category.name}} </span>
         {% endfor %}
-
-        <a href="/news">
-            <h4 style="text-align: left">Все новости <<</h4>
-        </a>
-        <span style ="color: grey;">P.S.</br>Дата и время публикации: ДЕНЬ-МЕСЯЦ-ГОД ЧАС:МИНУТЫ</br></span>
+    </br></br>
+        <a href="/news" class="btn btn-secondary">&lt;&lt; Все новости</a>
+        <a href="{{ request.get_full_path }}/edit" class="btn btn-secondary">Редактировать</a>
+        <a href="{{ request.get_full_path }}/delete" class="btn btn-secondary">Удалить</a>
 
 {% endblock content %}
-
 
